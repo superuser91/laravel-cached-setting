@@ -1,0 +1,1 @@
+# laravel-cached-setting
