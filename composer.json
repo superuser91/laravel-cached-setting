@@ -5,7 +5,7 @@
     "require": {
         "php": "^7.0",
         "laravel/framework": "^6.0|^7.0|^8.0",
-        "vgplay/laravel-redis-model": "^1.0.0"
+        "vgplay/laravel-redis-model": "^1.0.1"
     },
     "license": "MIT",
     "autoload": {
