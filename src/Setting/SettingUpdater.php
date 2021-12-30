@@ -4,13 +4,25 @@ namespace Vgplay\LaravelCachedSetting\Setting;
 
 use Illuminate\Support\Collection;
 use Vgplay\LaravelCachedSetting\Setting\Setting;
+use Vgplay\LaravelCachedSetting\Types\Checkbox;
+use Vgplay\LaravelCachedSetting\Types\File;
+use Vgplay\LaravelCachedSetting\Types\Text;
+use Vgplay\LaravelCachedSetting\Types\TextList;
+use Vgplay\LaravelCachedSetting\Types\Timestamp;
 
 class SettingUpdater
 {
-    public function update(Collection $settings, array $configs)
+    /**
+     * Update value for collection of settings passed to 1st agrument
+     *
+     * @param Collection $settings
+     * @param array $changement
+     * @return void
+     */
+    public function update(Collection $settings, array $changement)
     {
         foreach ($settings as $setting) {
-            $content = $this->getContentBasedOnType($setting, $configs);
+            $content = $this->getContentBasedOnType($setting, $changement);
 
             if ($setting->type == 'image' && $content == null) {
                 continue;
@@ -24,30 +36,28 @@ class SettingUpdater
         }
     }
 
-    protected function performUpdateSetting(Setting $setting, $config)
+    protected function performUpdateSetting(Setting $setting, $content)
     {
-        $setting->value = $config;
+        $setting->value = $content;
         $setting->save();
     }
 
-    protected function getContentBasedOnType(Setting $setting, $configs)
+    protected function getContentBasedOnType(Setting $setting, array $changements)
     {
         switch ($setting->data_type) {
             case 'checkbox':
-                return array_key_exists($setting->key, $configs);
+                return (new Checkbox($setting, $changements))->handle();
             case 'file':
             case 'image':
-                return array_key_exists($setting->key, $configs)
-                    ? $configs[$setting->key]
-                    : null;
+                return (new File($setting, $changements))->handle();
+            case 'date':
+            case 'datetime':
+            case 'timestamp':
+                return (new Timestamp($setting, $changements))->handle();
             case 'list':
-                return array_key_exists($setting->key, $configs)
-                    ? $configs[$setting->key]
-                    : [];
+                return (new TextList($setting, $changements))->handle();
             default:
-                return array_key_exists($setting->key, $configs)
-                    ? $configs[$setting->key]
-                    : '';
+                return (new Text($setting, $changements))->handle();
         }
     }
 }

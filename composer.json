@@ -1,6 +1,6 @@
 {
     "name": "vgplay/laravel-cached-setting",
-    "description": "Library for cache website configuration",
+    "description": "Library for caching website configuration",
     "type": "library",
     "require": {
         "php": "^7.0",
