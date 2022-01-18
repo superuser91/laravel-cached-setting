@@ -23,6 +23,7 @@ class Setting extends Model implements Cacheable
         'value',
         'type',
         'group',
+        'is_hidden'
     ];
 
     protected $casts = [
