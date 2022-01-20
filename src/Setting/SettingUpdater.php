@@ -22,6 +22,8 @@ class SettingUpdater
     public function update(Collection $settings, array $changement)
     {
         foreach ($settings as $setting) {
+            if ($setting->is_hidden) continue;
+            
             $content = $this->getContentBasedOnType($setting, $changement);
 
             if ($setting->type == 'image' && $content == null) {
