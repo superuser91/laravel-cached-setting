@@ -15,10 +15,10 @@ class ListSetting
         $this->authorize(config('vgplay.settings.permission.index'));
 
         $settings = Setting::fromCache()->all()
+            ->where('is_hidden', false)
             ->when($group, function ($q) use ($group) {
-                $q->where('group', $group);
-            })
-            ->where('is_hidden', false);
+                return $q->where('group', $group);
+            });
 
         return view('vgplay::settings.index', compact('settings'));
     }
