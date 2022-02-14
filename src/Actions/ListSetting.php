@@ -12,7 +12,7 @@ class ListSetting
 
     public function index(Request $request, $group = null)
     {
-        $this->authorize(config('vgplay.settings.permission.index'));
+        $this->authorize('index', [Setting::class, $group]);
 
         $settings = Setting::fromCache()->all()
             ->where('is_hidden', false)
