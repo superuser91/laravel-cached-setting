@@ -14,7 +14,7 @@ class UpdateSetting
 
     public function update(Request $request, SettingUpdater $settingUpdater, $group = null)
     {
-        $this->authorize(config('vgplay.settings.permissions.update'));
+        $this->authorize('update', Setting::class, $group);
 
         $settings = Setting::fromCache()->all()
             ->where('is_hidden', false)
