@@ -17,13 +17,13 @@ class UpdateSetting
         $this->authorize(config('vgplay.settings.permissions.update'));
 
         $settings = Setting::fromCache()->all()->where('is_hidden', false)->when($group, function ($q) use ($group) {
-            $q->where('group', $group);
+            return $q->where('group', $group);
         });
 
         try {
             $settingUpdater->update($settings, $request->all());
             session()->flash('status', 'Cập nhật thành công');
-            return redirect(route('settings.index'));
+            return redirect(route('settings.index', $group));
         } catch (ValidationException $e) {
             session()->flash('status', $e->getMessage());
             return back()->withInput()->withErrors($e->validator);
