@@ -20,18 +20,20 @@
                     <div class="card-header p-2">
                         <ul class="nav nav-pills">
                             @foreach ($settings->groupBy('type') as $type => $group)
-                                <li class="nav-item"><a class="nav-link @if ($loop->first) active @endif"
+                                <li class="nav-item"><a
+                                        class="nav-link @if ($loop->first) active @endif"
                                         href="#tab-{{ str_slug($type) }}" data-toggle="tab">{{ $type }}</a></li>
                             @endforeach
                         </ul>
                     </div><!-- /.card-header -->
                     <div class="card-body">
-                        <form action="{{ route('settings.update') }}" method="POST" id="form-update">
+                        <form action="{{ url()->current() }}" method="POST" id="form-update">
                             @csrf
                             @method('PUT')
                             <div class="tab-content">
                                 @foreach ($settings->groupBy('type')->sortBy('group') as $type => $group)
-                                    <div class="tab-pane @if ($loop->first) active @endif" id="tab-{{ str_slug($type) }}">
+                                    <div class="tab-pane @if ($loop->first) active @endif"
+                                        id="tab-{{ str_slug($type) }}">
 
                                         @foreach ($group as $item)
                                             @include('vgplay::settings.partials.form-element')
