@@ -1,4 +1,4 @@
-@extends('vgplay::settings.layout')
+@extends(config("vgplay.settings.layout"))
 
 @section('title', 'Cấu hình trang chủ')
 
