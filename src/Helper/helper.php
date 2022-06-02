@@ -25,3 +25,10 @@ if (!function_exists('set_setting')) {
         ]);
     }
 }
+
+if (!function_exists('str_slug')) {
+    function str_slug($title)
+    {
+        return \Illuminate\Support\Str::slug($title);
+    }
+}
